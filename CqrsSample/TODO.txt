@@ -1,0 +1,6 @@
+bearer authentication
+
+post-get actions with parameters
+model validations
+in memory db 
+
