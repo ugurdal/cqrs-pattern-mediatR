@@ -37,7 +37,13 @@ namespace CqrsSample
                 options.UseInMemoryDatabase(databaseName: "TestDb");
             });
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ValidateModelFilter)); //Global model validation filter
+            }).ConfigureApiBehaviorOptions(apiOptions =>
+            {
+                apiOptions.SuppressModelStateInvalidFilter = true; //[ApiController] attribute checks invalid request by default. Disable and check manually
+            });
 
             services.AddHttpContextAccessor(); //Expose httpContext to services
 

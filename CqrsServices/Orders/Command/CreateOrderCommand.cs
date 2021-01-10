@@ -5,6 +5,7 @@ using CqrsServices.Wrapper;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace CqrsServices.Orders.Command
     {
         public int CustomerId { get; set; }
         public string OrderNo { get; set; }
+
+        [Range(0.1d, double.MaxValue)]
         public decimal Total { get; set; }
     }
 
