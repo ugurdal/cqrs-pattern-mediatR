@@ -1,4 +1,6 @@
-﻿using CqrsServices.Models;
+﻿using CqrsEntity;
+using CqrsEntity.Models;
+using CqrsServices.Models;
 using CqrsServices.Wrapper;
 using MediatR;
 using System;
@@ -18,18 +20,28 @@ namespace CqrsServices.Orders.Command
 
     public class CreateOrderHandler : IHandlerWrapper<CreateOrderCommand, int>
     {
-        public CreateOrderHandler() //Dependency injection
-        {
+        private readonly AppDbContext _db;
 
+        public CreateOrderHandler(AppDbContext db) //Dependency injection
+        {
+            _db = db;
         }
 
         public async Task<Response<int>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            //create order
-            if (request.Total == 0m)
-                return Response.Fail<int>("Total must be greater then zero");
+            //model validation
 
-            return Response.Success(10, "");
+            var order = new DbOrder
+            {
+                No = request.OrderNo,
+                Total = request.Total,
+                Date = DateTime.Now,
+                CustomerId = request.CustomerId
+            };
+            await _db.Orders.AddAsync(order);
+            await _db.SaveChangesAsync();
+
+            return Response.Success(order.Id, "");
         }
     }
 }

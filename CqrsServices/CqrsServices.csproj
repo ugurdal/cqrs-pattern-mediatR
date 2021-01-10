@@ -7,6 +7,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="MediatR" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\CqrsEntity\CqrsEntity.csproj" />
 	</ItemGroup>
 
 </Project>

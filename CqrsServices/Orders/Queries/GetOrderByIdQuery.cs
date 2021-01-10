@@ -1,4 +1,5 @@
-﻿using CqrsServices.Models;
+﻿using CqrsEntity;
+using CqrsServices.Models;
 using CqrsServices.Wrapper;
 using MediatR;
 using System;
@@ -20,22 +21,27 @@ namespace CqrsServices.Orders.Queries
 
     public class GetOrderByIdHandler : IHandlerWrapper<GetOrderByIdQuery, OrderModel>
     {
-        public GetOrderByIdHandler() //DI
-        {
+        private readonly AppDbContext _db;
 
+        public GetOrderByIdHandler(AppDbContext db) //DI
+        {
+            _db = db;
         }
 
         public async Task<Response<OrderModel>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            //Select * from Order WHere ID = request.OrderId
+            var order = await _db.Orders.FindAsync(request.OrderId);
+            if (order == null)
+                return Response.Fail<OrderModel>("Order not found");
 
-            var order = new OrderModel
+            return Response.Success(new OrderModel
             {
-                Id = request.OrderId,
-                No = request.UserId
-            };
-
-            return Response.Success(order, "");
+                CustomerId = order.CustomerId,
+                Date = order.Date,
+                Id = order.Id,
+                No = order.No,
+                Total = order.Total
+            }, "");
         }
     }
 }

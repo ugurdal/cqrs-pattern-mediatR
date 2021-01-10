@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CqrsEntity;
 using CqrsSample.Infrastructure;
 using CqrsServices.Models;
 using CqrsServices.Orders.Queries;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +32,11 @@ namespace CqrsSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseInMemoryDatabase(databaseName: "TestDb");
+            });
+
             services.AddControllers();
 
             services.AddHttpContextAccessor(); //Expose httpContext to services
@@ -45,7 +52,7 @@ namespace CqrsSample
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -53,6 +60,10 @@ namespace CqrsSample
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CqrsSample v1"));
             }
+
+            using var scope = app.ApplicationServices.CreateScope(); //get service scope 
+            var context = scope.ServiceProvider.GetService<AppDbContext>(); //get db context
+            DatabaseGenerator.Initialize(context); //seed some data
 
             app.UseHttpsRedirection();
 

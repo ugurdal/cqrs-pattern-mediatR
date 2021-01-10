@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CqrsEntity;
 using CqrsServices.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CqrsServices.Orders.Queries
 {
@@ -14,20 +17,24 @@ namespace CqrsServices.Orders.Queries
 
     public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, IList<OrderModel>>
     {
-        public GetAllOrdersQueryHandler() //Dependency Injection
-        {
+        private readonly AppDbContext _db;
 
+        public GetAllOrdersQueryHandler(AppDbContext db) //Dependency Injection
+        {
+            _db = db;
         }
 
         public async Task<IList<OrderModel>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            //Read from db
-            return new List<OrderModel>(new[]
+            return await _db.Orders.Select(x => new OrderModel
             {
-                new OrderModel{Id = 1, No = "1", Date = DateTime.Today, Total = 10m, CustomerId = 5},
-                new OrderModel{Id = 2, No = "2", Date = DateTime.Today, Total = 120m, CustomerId = 100},
-                new OrderModel{Id = 3, No = "3", Date = DateTime.Today, Total = 85m, CustomerId = 85},
-            });
+                Id = x.Id,
+                No = x.No,
+                CustomerId = x.CustomerId,
+                Date = x.Date,
+                Total = x.Total
+
+            }).ToListAsync();
         }
     }
 }

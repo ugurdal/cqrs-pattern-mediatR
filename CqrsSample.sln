@@ -1,8 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsSample", "CqrsSample\CqrsSample.csproj", "{83648D83-C5B4-4653-B008-DEB49359364F}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsSample", "CqrsSample\CqrsSample.csproj", "{83648D83-C5B4-4653-B008-DEB49359364F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsServices", "CqrsServices\CqrsServices.csproj", "{67F0C402-C097-439C-BE53-A507650A7CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CqrsServices", "CqrsServices\CqrsServices.csproj", "{67F0C402-C097-439C-BE53-A507650A7CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CqrsEntity", "CqrsEntity\CqrsEntity.csproj", "{1006626D-4475-41C9-B2D0-2E583700A126}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,15 @@ Global
 		{67F0C402-C097-439C-BE53-A507650A7CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67F0C402-C097-439C-BE53-A507650A7CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67F0C402-C097-439C-BE53-A507650A7CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1006626D-4475-41C9-B2D0-2E583700A126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1006626D-4475-41C9-B2D0-2E583700A126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1006626D-4475-41C9-B2D0-2E583700A126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1006626D-4475-41C9-B2D0-2E583700A126}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88A60B9E-7390-4B54-B19C-BD3BA94258EB}
 	EndGlobalSection
 EndGlobal
