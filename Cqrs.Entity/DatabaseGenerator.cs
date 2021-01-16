@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cqrs.Entity.Models;
 
-namespace CqrsEntity
+namespace Cqrs.Entity
 {
     public class DatabaseGenerator
     {
@@ -14,7 +15,7 @@ namespace CqrsEntity
 
             var rnd = new Random();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
                 dbContext.Orders.Add(new Models.DbOrder
                 {
@@ -24,6 +25,9 @@ namespace CqrsEntity
                     Total = 1.5m * rnd.Next(50, 150)
                 });
             }
+
+            dbContext.Customers.Add(new DbCustomer {Id = 5, Name = "Ugur"});
+            dbContext.Customers.Add(new DbCustomer {Id = 6, Name = "Buket"});
 
             dbContext.SaveChanges();
         }

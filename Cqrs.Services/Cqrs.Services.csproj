@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\CqrsEntity\CqrsEntity.csproj" />
+	  <ProjectReference Include="..\Cqrs.Entity\Cqrs.Entity.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CqrsEntity;
-using CqrsSample.Infrastructure;
-using CqrsServices.Models;
-using CqrsServices.Orders.Queries;
+using Cqrs.Entity;
+using Cqrs.Sample.Infrastructure;
+using Cqrs.Services.Models;
+using Cqrs.Services.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace CqrsSample
+namespace Cqrs.Sample
 {
     public class Startup
     {
@@ -53,7 +53,7 @@ namespace CqrsSample
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CqrsSample", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cqrs.Sample", Version = "v1" });
             });
         }
 
@@ -64,7 +64,7 @@ namespace CqrsSample
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CqrsSample v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cqrs.Sample v1"));
             }
 
             using var scope = app.ApplicationServices.CreateScope(); //get service scope 

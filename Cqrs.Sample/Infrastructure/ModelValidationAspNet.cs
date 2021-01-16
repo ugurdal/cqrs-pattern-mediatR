@@ -1,4 +1,4 @@
-﻿using CqrsServices;
+﻿using Cqrs.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CqrsSample.Infrastructure
+namespace Cqrs.Sample.Infrastructure
 {
     public class ModelValidationAspNet
     {

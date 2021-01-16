@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CqrsServices.Models
+namespace Cqrs.Services.Models
 {
     public abstract class BaseRequest
     {

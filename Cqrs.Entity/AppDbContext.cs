@@ -1,10 +1,10 @@
-﻿using CqrsEntity.Models;
+﻿using Cqrs.Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CqrsEntity
+namespace Cqrs.Entity
 {
     public class AppDbContext : DbContext
     {
@@ -14,6 +14,7 @@ namespace CqrsEntity
         }
 
         public DbSet<DbOrder> Orders { get; set; }
+        public DbSet<DbCustomer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,11 @@ namespace CqrsEntity
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+            modelBuilder.Entity<DbCustomer>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
         }
     }

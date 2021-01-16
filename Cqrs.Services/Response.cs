@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CqrsServices
+namespace Cqrs.Services
 {
     public static class Response
     {

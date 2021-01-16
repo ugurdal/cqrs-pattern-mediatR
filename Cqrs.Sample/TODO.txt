@@ -1,0 +1,30 @@
+bearer authentication
+model validations
+
+
+bearer authentication
+
+response compression
+
+global authorization
+
+
+iHttpClientFactory
+
+background services
+
+options builder !!!
+
+serilog ???
+seq
+
+queue ??
+
+swagger enum doc filter
+swagger document
+
+toDbContext extension?
+
+json options 
+
+migrations to different assembly

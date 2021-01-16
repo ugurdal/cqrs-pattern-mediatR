@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CqrsServices.Wrapper
+namespace Cqrs.Services.Wrapper
 {
     public interface IRequestWrapper<T> : IRequest<Response<T>>
     {

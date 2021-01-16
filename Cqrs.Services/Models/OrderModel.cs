@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System;
 
-namespace CqrsEntity.Models
+namespace Cqrs.Services.Models
 {
-    public class DbOrder
+    public class OrderModel
     {
         public int Id { get; set; }
         public string No { get; set; }

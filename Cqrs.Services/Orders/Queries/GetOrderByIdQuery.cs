@@ -1,14 +1,14 @@
-﻿using CqrsEntity;
-using CqrsServices.Models;
-using CqrsServices.Wrapper;
+﻿using Cqrs.Entity;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Cqrs.Services.Models;
+using Cqrs.Services.Wrapper;
 
-namespace CqrsServices.Orders.Queries
+namespace Cqrs.Services.Orders.Queries
 {
     public class GetOrderByIdQuery : BaseRequest, IRequestWrapper<OrderModel>
     {
