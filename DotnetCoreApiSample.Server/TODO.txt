@@ -1,10 +1,5 @@
 
 
-response compression
-
-global authorization
-
-
 iHttpClientFactory
 
 background services
@@ -15,9 +10,6 @@ serilog ???
 seq
 
 queue ??
-
-swagger enum doc filter
-swagger document
 
 toDbContext extension?
 

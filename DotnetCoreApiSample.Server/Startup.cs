@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -145,6 +147,29 @@ namespace DotnetCoreApiSample.Server
                 {
                     options.IncludeDescriptions = true;
                 });
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
+            services.AddResponseCompression(options =>
+            {
+                var mimeTypes = new[]
+                {
+                    "text/plain",
+                    "text/html",
+                    "text/css",
+                    "application/javascript",
+                    "image/x-icon",
+                    "image/png",
+                    "application/json",
+                    "text/json"
+                };
+
+                options.EnableForHttps = true;
+                options.MimeTypes = mimeTypes;
+                options.Providers.Add<GzipCompressionProvider>();
             });
         }
 
