@@ -19,7 +19,8 @@ namespace DotnetCoreApiSample.Services.Orders.Command
         public int CustomerId { get; set; }
         public string OrderNo { get; set; }
 
-        [Range(0.1d, double.MaxValue)] public decimal Total { get; set; }
+        [Range(0.1d, double.MaxValue)] 
+        public decimal Total { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

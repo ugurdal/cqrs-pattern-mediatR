@@ -15,7 +15,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -101,7 +103,7 @@ namespace DotnetCoreApiSample.Server
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Cqrs.Sample", 
+                    Title = "DotnetCoreApiSample", 
                     Version = "v1",
                     Contact = new OpenApiContact
                     {
@@ -138,9 +140,9 @@ namespace DotnetCoreApiSample.Server
                     }
                 });
                 
-                // var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                // var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
-                // c.IncludeXmlComments(xmlPath);
+                var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
                 // c.IncludeXmlComments(System.IO.Path.Combine(AppContext.BaseDirectory, "DotnetCoreApiSample.Models.xml"));
                 // c.IncludeXmlComments(System.IO.Path.Combine(AppContext.BaseDirectory, "DotnetCoreApiSample.Services.xml"));
                 c.AddEnumsWithValuesFixFilters(services, options =>
@@ -171,17 +173,43 @@ namespace DotnetCoreApiSample.Server
                 options.MimeTypes = mimeTypes;
                 options.Providers.Add<GzipCompressionProvider>();
             });
+
+            services.AddApiVersioning(options =>
+            {
+                options.AssumeDefaultVersionWhenUnspecified = true; //Use default version
+                options.DefaultApiVersion = new ApiVersion(1, 0); //Set default version
+                //options.ApiVersionReader = new MediaTypeApiVersionReader("version"); //Read from Accept header
+                //options.ApiVersionReader = new HeaderApiVersionReader("X_Version"); //Read from customer header
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new MediaTypeApiVersionReader("version"),
+                    new HeaderApiVersionReader("X_Version")
+                );
+
+                options.ReportApiVersions = true; //adds supported versions to response headers
+            });
+
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext db, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cqrs.Sample v1"));
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                foreach (var desc in provider.ApiVersionDescriptions)
+                {
+                    c.SwaggerEndpoint($"/swagger/{desc.GroupName}/swagger.json", desc.GroupName.ToUpperInvariant());
+                }
+            });
 
             using var scope = app.ApplicationServices.CreateScope(); //get service scope 
             var context = scope.ServiceProvider.GetService<AppDbContext>(); //get db context
@@ -195,7 +223,10 @@ namespace DotnetCoreApiSample.Server
             
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+            });
         }
     }
 }

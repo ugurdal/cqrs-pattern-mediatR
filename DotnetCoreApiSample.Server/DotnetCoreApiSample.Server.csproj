@@ -4,7 +4,13 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
     <PropertyGroup>
-        <NoWarn>NU1605</NoWarn>
+        <NoWarn>NU1605; CS1591; CS0162</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\DotnetCoreApiSample.Server.xml</DocumentationFile>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\DotnetCoreApiSample.Server.xml</DocumentationFile>
     </PropertyGroup>
         
 
@@ -12,6 +18,8 @@
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
