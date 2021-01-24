@@ -1,10 +1,10 @@
-﻿using Cqrs.Entity.Models;
+﻿using DotnetCoreApiSample.Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cqrs.Entity
+namespace DotnetCoreApiSample.Entity
 {
     public class AppDbContext : DbContext
     {

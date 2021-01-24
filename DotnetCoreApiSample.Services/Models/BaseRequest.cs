@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cqrs.Services.Models
+namespace DotnetCoreApiSample.Services.Models
 {
     public abstract class BaseRequest
     {

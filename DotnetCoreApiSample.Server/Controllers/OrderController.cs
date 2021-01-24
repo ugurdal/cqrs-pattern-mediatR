@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cqrs.Services;
-using Cqrs.Services.Models;
-using Cqrs.Services.Orders.Command;
-using Cqrs.Services.Orders.Queries;
+using DotnetCoreApiSample.Services;
+using DotnetCoreApiSample.Services.Models;
+using DotnetCoreApiSample.Services.Orders.Command;
+using DotnetCoreApiSample.Services.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Cqrs.Sample.Controllers
+namespace DotnetCoreApiSample.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,5 +1,5 @@
-﻿using Cqrs.Entity;
-using Cqrs.Entity.Models;
+﻿using DotnetCoreApiSample.Entity;
+using DotnetCoreApiSample.Entity.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Cqrs.Services.Models;
-using Cqrs.Services.Wrapper;
+using DotnetCoreApiSample.Services.Models;
+using DotnetCoreApiSample.Services.Wrapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cqrs.Services.Orders.Command
+namespace DotnetCoreApiSample.Services.Orders.Command
 {
     public class CreateOrderCommand : BaseRequest, IRequestWrapper<int>, IValidatableObject
     {

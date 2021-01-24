@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cqrs.Entity;
-using Cqrs.Sample.Infrastructure;
-using Cqrs.Services.Models;
-using Cqrs.Services.Orders.Queries;
+using DotnetCoreApiSample.Entity;
+using DotnetCoreApiSample.Server.Infrastructure;
+using DotnetCoreApiSample.Services.Models;
+using DotnetCoreApiSample.Services.Orders.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace Cqrs.Sample
+namespace DotnetCoreApiSample.Server
 {
     public class Startup
     {
@@ -36,6 +36,13 @@ namespace Cqrs.Sample
             {
                 options.UseInMemoryDatabase(databaseName: "TestDb");
             });
+
+            services.AddAuthentication("OAuth")
+                .AddJwtBearer("OAuth", options =>
+                {
+                    
+
+                });
 
             services.AddControllers(options =>
             {

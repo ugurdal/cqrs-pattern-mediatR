@@ -1,4 +1,4 @@
-﻿using Cqrs.Services;
+﻿using DotnetCoreApiSample.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cqrs.Sample.Infrastructure
+namespace DotnetCoreApiSample.Server.Infrastructure
 {
     public class ModelValidationAspNet
     {

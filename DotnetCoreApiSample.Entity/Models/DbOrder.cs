@@ -1,8 +1,10 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Cqrs.Services.Models
+namespace DotnetCoreApiSample.Entity.Models
 {
-    public class OrderModel
+    public class DbOrder
     {
         public int Id { get; set; }
         public string No { get; set; }

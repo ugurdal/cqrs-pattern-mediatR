@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cqrs.Entity.Models;
+using DotnetCoreApiSample.Entity.Models;
 
-namespace Cqrs.Entity
+namespace DotnetCoreApiSample.Entity
 {
     public class DatabaseGenerator
     {

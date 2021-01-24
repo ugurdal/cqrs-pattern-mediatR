@@ -20,8 +20,8 @@
         
 
     <ItemGroup>
-      <ProjectReference Include="..\Cqrs.Entity\Cqrs.Entity.csproj" />
-      <ProjectReference Include="..\Cqrs.Services\Cqrs.Services.csproj" />
+      <ProjectReference Include="..\DotnetCoreApiSample.Entity\DotnetCoreApiSample.Entity.csproj" />
+      <ProjectReference Include="..\DotnetCoreApiSample.Services\DotnetCoreApiSample.Services.csproj" />
     </ItemGroup>
 
 </Project>

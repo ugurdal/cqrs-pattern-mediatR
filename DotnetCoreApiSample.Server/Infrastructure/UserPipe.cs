@@ -1,5 +1,5 @@
-﻿using Cqrs.Services;
-using Cqrs.Services.Models;
+﻿using DotnetCoreApiSample.Services;
+using DotnetCoreApiSample.Services.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cqrs.Sample.Infrastructure
+namespace DotnetCoreApiSample.Server.Infrastructure
 {
     public class UserPipe<TIn, TOut> : IPipelineBehavior<TIn, TOut>
     {

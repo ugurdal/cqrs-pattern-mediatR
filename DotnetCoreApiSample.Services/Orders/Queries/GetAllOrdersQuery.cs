@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Cqrs.Services.Models;
-using Cqrs.Entity;
+using DotnetCoreApiSample.Services.Models;
+using DotnetCoreApiSample.Entity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cqrs.Services.Orders.Queries
+namespace DotnetCoreApiSample.Services.Orders.Queries
 {
     public class GetAllOrdersQuery : BaseRequest, IRequest<IList<OrderModel>>
     {

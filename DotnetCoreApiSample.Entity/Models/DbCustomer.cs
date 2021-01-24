@@ -1,4 +1,4 @@
-namespace Cqrs.Entity.Models
+namespace DotnetCoreApiSample.Entity.Models
 {
     public class DbCustomer
     {
