@@ -1,8 +1,4 @@
-bearer authentication
-model validations
 
-
-bearer authentication
 
 response compression
 

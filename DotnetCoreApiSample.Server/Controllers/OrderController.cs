@@ -5,12 +5,14 @@ using DotnetCoreApiSample.Services.Models;
 using DotnetCoreApiSample.Services.Orders.Command;
 using DotnetCoreApiSample.Services.Orders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetCoreApiSample.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -22,7 +24,7 @@ namespace DotnetCoreApiSample.Server.Controllers
         }
 
         [HttpGet, Route("get-all")]
-        [Produces(Json)]
+        //[Produces(Json)]
         public async Task<ActionResult<IList<OrderModel>>> GetAllOrders()
         {
             var result = await _mediator.Send(new GetAllOrdersQuery());

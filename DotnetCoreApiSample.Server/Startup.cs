@@ -1,22 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using DotnetCoreApiSample.Entity;
 using DotnetCoreApiSample.Server.Infrastructure;
 using DotnetCoreApiSample.Services.Models;
 using DotnetCoreApiSample.Services.Orders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 namespace DotnetCoreApiSample.Server
 {
@@ -40,12 +46,43 @@ namespace DotnetCoreApiSample.Server
             services.AddAuthentication("OAuth")
                 .AddJwtBearer("OAuth", options =>
                 {
-                    
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidAudience = Constants.SecurtyAudience,
+                        ValidateIssuer = true,
+                        ValidIssuer = Constants.SecurtyIssuer,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SecurtyKey))
+                    };
 
+                    options.Events = new JwtBearerEvents()
+                    {
+                        OnTokenValidated = ctx => Task.CompletedTask,
+                        OnAuthenticationFailed = ctx =>
+                        {
+                            //Log exception message ctx.Exception.Message + ctx.Exception.InnerMessage?.Message
+                            return Task.CompletedTask;
+                        },
+                        OnMessageReceived = ctx => //If user sends access token in query parameters, use that token
+                        {
+                            if (ctx.Request.Query.ContainsKey("access_token"))
+                                ctx.Token = ctx.Request.Query["access_token"];
+                            
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddControllers(options =>
             {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy)); //Global authorization
+                options.Filters.Add(new ProducesAttribute("application/json")); //Global media type support
                 options.Filters.Add(typeof(ValidateModelFilter)); //Global model validation filter
             }).ConfigureApiBehaviorOptions(apiOptions =>
             {
@@ -60,7 +97,54 @@ namespace DotnetCoreApiSample.Server
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cqrs.Sample", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cqrs.Sample", 
+                    Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Email = "ugurrdal@gmail.com",
+                        Name = "Ugur Dal",
+                        Url = new Uri("https://github.com/ugurdal")
+                    }
+                });
+                
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header
+                        },
+                        new List<string>()
+                    }
+                });
+                
+                // var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // var xmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, xmlFile);
+                // c.IncludeXmlComments(xmlPath);
+                // c.IncludeXmlComments(System.IO.Path.Combine(AppContext.BaseDirectory, "DotnetCoreApiSample.Models.xml"));
+                // c.IncludeXmlComments(System.IO.Path.Combine(AppContext.BaseDirectory, "DotnetCoreApiSample.Services.xml"));
+                c.AddEnumsWithValuesFixFilters(services, options =>
+                {
+                    options.IncludeDescriptions = true;
+                });
             });
         }
 
@@ -82,7 +166,9 @@ namespace DotnetCoreApiSample.Server
 
             app.UseRouting();
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }
